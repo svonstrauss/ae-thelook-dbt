@@ -6,7 +6,12 @@ models:
       - name: order_item_id
         tests: [not_null, unique]
       - name: product_id
-        tests: [not_null]
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_id
       - name: user_id
         tests:
           - not_null
@@ -20,6 +25,13 @@ models:
               arguments:
                 to: ref('dim_distribution_centers')
                 field: distribution_center_id
+      - name: order_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Cancelled','Completed','Processing','Shipped','Returned']
+              config:
+                severity: warn
   - name: dim_users
     description: "Customer dimension with first order date, order count and type classification."
     columns:

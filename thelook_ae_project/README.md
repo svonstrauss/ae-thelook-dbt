@@ -89,3 +89,6 @@ Primary keys are unique and not null. Foreign keys from the fact reference dimen
 
 Definition of done
 Every core source has a staging view that compiles without warnings and exposes clearly named columns and correct types. The marts build cleanly in BigQuery and reflect the described star schema. The README and model YAMLs describe intent, important fields and assumptions so another engineer can understand the design quickly.
+
+### Week 3: Tests and documentation
+This iteration adds a stronger safety net and better context. Models and key columns are documented. Tests cover keys, relationships and accepted values. A small custom test ensures prices are never negative. The docs site renders a clear lineage from sources to marts so a reviewer can trace how numbers are produced.
