@@ -1,0 +1,4 @@
+version: 2
+models:
+  - name: stg_orders
+    description: "Smoke test model selecting 10 rows from the public orders source."
