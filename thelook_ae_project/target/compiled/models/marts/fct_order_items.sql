@@ -3,11 +3,13 @@
 with
 order_items as (
   select
-    cast(id as string)         as order_item_id,
-    cast(order_id as string)   as order_id,
-    cast(product_id as string) as product_id,
-    sale_price
-  from `bigquery-public-data`.`thelook_ecommerce`.`order_items`
+    order_item_id,
+    order_id,
+    product_id,
+    user_id,
+    sale_price,
+    item_status
+  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__order_items`
 ),
 orders as (
   select
@@ -19,17 +21,17 @@ orders as (
 ),
 products as (
   select
-    cast(id as string) as product_id,
+    product_id,
     category,
     department,
-    cast(distribution_center_id as string) as distribution_center_id
-  from `bigquery-public-data`.`thelook_ecommerce`.`products`
+    distribution_center_id
+  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__products`
 ),
 dc as (
   select
-    cast(id as string) as distribution_center_id,
-    name as distribution_center_name
-  from `bigquery-public-data`.`thelook_ecommerce`.`distribution_centers`
+    distribution_center_id,
+    distribution_center_name
+  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__distribution_centers`
 )
 
 select
@@ -40,6 +42,7 @@ select
   o.order_status,
   oi.sale_price,
   oi.product_id,
+  p.distribution_center_id,
   p.category  as product_category,
   p.department as product_department,
   dc.distribution_center_name

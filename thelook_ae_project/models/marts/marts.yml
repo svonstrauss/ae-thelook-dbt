@@ -5,6 +5,8 @@ models:
     columns:
       - name: order_item_id
         tests: [not_null, unique]
+      - name: product_id
+        tests: [not_null]
       - name: user_id
         tests:
           - not_null
@@ -12,8 +14,24 @@ models:
               arguments:
                 to: ref('dim_users')
                 field: user_id
+      - name: distribution_center_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_distribution_centers')
+                field: distribution_center_id
   - name: dim_users
     description: "Customer dimension with basic lifecycle metrics."
     columns:
       - name: user_id
+        tests: [not_null, unique]
+  - name: dim_products
+    description: "Product dimension with category, department and DC id."
+    columns:
+      - name: product_id
+        tests: [not_null, unique]
+  - name: dim_distribution_centers
+    description: "Distribution center reference."
+    columns:
+      - name: distribution_center_id
         tests: [not_null, unique]

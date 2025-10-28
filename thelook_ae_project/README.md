@@ -46,6 +46,38 @@ Design a concise star schema around a single transactional fact with descriptive
 Model shape
 Fact at the grain of an order item. Dimensions for users, products and distribution centers. Order headers enrich the fact with dates and status. This mirrors how downstream analysis happens: count items, sum revenue, segment by customer and product properties, drill into logistics.
 
+```mermaid
+erDiagram
+  USERS ||--o{ FCT_ORDER_ITEMS : user_id
+  PRODUCTS ||--o{ FCT_ORDER_ITEMS : product_id
+  DISTRIBUTION_CENTERS ||--o{ PRODUCTS : distribution_center_id
+
+  USERS {
+    string user_id
+    string first_name
+    string last_name
+    string email
+  }
+  PRODUCTS {
+    string product_id
+    string category
+    string department
+    string distribution_center_id
+  }
+  DISTRIBUTION_CENTERS {
+    string distribution_center_id
+    string distribution_center_name
+  }
+  FCT_ORDER_ITEMS {
+    string order_item_id
+    string order_id
+    string user_id
+    string product_id
+    timestamp order_date
+    numeric sale_price
+  }
+```
+
 Standards
 Staging models only rename, cast and normalize. No joins or aggregates. Marts own the business definitions and denormalization. Consistent naming uses prefixes (stg_, dim_, fct_) and stable keys cast to strings. Partition large facts by order_date and cluster by high‑cardinality keys like user_id.
 
