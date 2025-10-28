@@ -1,0 +1,18 @@
+
+==================== Execution Summary =====================
+Finished 'init' successfully [14.3s]
+
+==================== Execution Summary =====================
+Finished 'init' successfully [2.6s]
+Installing dbt project and profile setup
+Info Created .vscode/extensions.json with dbt extension recommendation
+Success Project created successfully!
+Info Project name: jaffle_shop
+Info Project directory: jaffle_shop
+Info Setting up your profile...
+Info Creating new profile...
+Found dbt_cloud.yml configuration
+Found active project: Analytics (ID: 70471823518954)
+
+==================== Execution Summary =====================
+Finished 'init' successfully [2.4s]

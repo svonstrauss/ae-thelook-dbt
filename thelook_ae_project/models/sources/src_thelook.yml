@@ -1,0 +1,17 @@
+version: 2
+sources:
+  - name: thelook
+    database: bigquery-public-data
+    schema: thelook_ecommerce
+    config:
+      freshness:
+        warn_after: {count: 24, period: hour}
+        error_after: {count: 48, period: hour}
+    tables:
+      - name: orders
+        config:
+          loaded_at_field: created_at
+      - name: order_items
+      - name: users
+      - name: products
+      - name: distribution_centers

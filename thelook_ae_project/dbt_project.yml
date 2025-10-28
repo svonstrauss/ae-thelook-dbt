@@ -1,0 +1,21 @@
+name: thelook_ae_project
+version: 1.0.0
+config-version: 2
+
+profile: thelook_ae
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+models:
+  thelook_ae_project:
+    staging:
+      +schema: thelook_dev_staging
+      +materialized: view
+    marts:
+      +schema: thelook_dev_marts
+      +materialized: table

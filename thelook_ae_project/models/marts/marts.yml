@@ -1,0 +1,19 @@
+version: 2
+models:
+  - name: fct_order_items
+    description: "Order item fact with order/user/product/DC attributes."
+    columns:
+      - name: order_item_id
+        tests: [not_null, unique]
+      - name: user_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_users')
+                field: user_id
+  - name: dim_users
+    description: "Customer dimension with basic lifecycle metrics."
+    columns:
+      - name: user_id
+        tests: [not_null, unique]

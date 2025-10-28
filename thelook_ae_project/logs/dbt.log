@@ -1,0 +1,337 @@
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1001: Profile '[33mthelook_ae[0m' not found in profiles.yml
+
+==================== Execution Summary =====================
+Finished 'debug' with 1 error [319ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+ Debugging profile: dev
+ Debugging dbt version: 2.0.0-preview.48
+ Debugging platform: macos aarch64 (unix)
+ Debugging adapter type: bigquery (remote)
+ Debugging dependencies:
+  git: OK
+ Debugging connection:
+  "database": "gold-yen-476203-m8",
+  "schema": "ae_dev",
+  "timeout_seconds": 300,
+  "priority": "interactive",
+  "method": "service-account",
+  "location": "US",
+  "dataproc_batch": null
+ Debugging connection test: OK
+  Debugged All checks passed!
+
+==================== Execution Summary =====================
+Finished 'debug' successfully for target 'dev' [2.6s]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+ Debugging profile: dev
+ Debugging dbt version: 2.0.0-preview.48
+ Debugging platform: macos aarch64 (unix)
+ Debugging adapter type: bigquery (remote)
+ Debugging dependencies:
+  git: OK
+ Debugging connection:
+  "database": "gold-yen-476203-m8",
+  "schema": "ae_dev",
+  "priority": "interactive",
+  "method": "service-account",
+  "location": "US",
+  "dataproc_batch": null
+ Debugging connection test: OK
+  Debugged All checks passed!
+
+==================== Execution Summary =====================
+Finished 'debug' successfully for target 'dev' [2.7s]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"loaded_at_field"[0m`. YAML path: `[33mloaded_at_field[0m`.
+  --> models/sources/src_thelook.yml:8:9
+error: dbt0102: Deprecated test arguments: ["field", "to"] at top-level detected. Please migrate to the new format under the '[33marguments[0m' field: https://docs.getdbt.com/reference/deprecations#missingargumentspropertyingenerictestdeprecation.
+  --> models/marts/marts.yml:13:22
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 2 errors for target 'dev' [1.4s]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"loaded_at_field"[0m`. YAML path: `[33mloaded_at_field[0m`.
+  --> models/sources/src_thelook.yml:8:9
+error: dbt0102: Deprecated test arguments: ["field", "to"] at top-level detected. Please migrate to the new format under the '[33marguments[0m' field: https://docs.getdbt.com/reference/deprecations#missingargumentspropertyingenerictestdeprecation.
+  --> models/marts/marts.yml:13:22
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 2 errors for target 'dev' [663ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"loaded_at_field"[0m`. YAML path: `[33mloaded_at_field[0m`.
+  --> models/sources/src_thelook.yml:8:9
+error: dbt0102: Deprecated test arguments: ["field", "to"] at top-level detected. Please migrate to the new format under the '[33marguments[0m' field: https://docs.getdbt.com/reference/deprecations#missingargumentspropertyingenerictestdeprecation.
+  --> models/marts/marts.yml:13:22
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'test' with 2 errors for target 'dev' [631ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [734ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [619ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'test' with 1 error for target 'dev' [640ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'parse' with 1 error for target 'dev' [984ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [636ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [661ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'test' with 1 error for target 'dev' [675ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+
+==================== Execution Summary =====================
+Finished 'deps' successfully for target 'dev' [656ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'parse' with 1 error for target 'dev' [730ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [661ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [880ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:8:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'test' with 1 error for target 'dev' [647ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"loaded_at_field"[0m`. YAML path: `[33mloaded_at_field[0m`.
+  --> models/sources/src_thelook.yml:8:9
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:9:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'parse' with 2 errors for target 'dev' [817ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt1060: Ignored unexpected key `[33m"loaded_at_field"[0m`. YAML path: `[33mloaded_at_field[0m`.
+  --> models/sources/src_thelook.yml:8:9
+error: dbt1060: Ignored unexpected key `[33m"freshness"[0m`. YAML path: `[33mfreshness[0m`.
+  --> models/sources/src_thelook.yml:9:9
+suggestion: Run 'dbt deps' to see the latest fusion compatible packages. For compatibility errors, try the autofix script: https://github.com/dbt-labs/dbt-autofix
+
+==================== Execution Summary =====================
+Finished 'run' with 2 errors for target 'dev' [686ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt0227: No column id found. Available are src.gender, src.user_id, src.order_id, src.status, src.shipped_at, src.created_at, src.delivered_at ..(and 2 more)
+  --> models/staging/stg_thelook__orders.sql:5:8 (target/compiled/models/staging/stg_thelook__orders.sql:5:8)
+   Skipped [-------] model thelook_dev_marts.fct_order_items (table)
+   Skipped [-------] model thelook_dev_marts.dim_users (table)
+    Failed [  3.18s] model thelook_dev_staging.stg_thelook__users (view)
+error: dbt1014: Error executing materialization macro '[33mdbt_bigquery.materialization_view_bigquery[0m' for model model.thelook_ae_project.stg_thelook__users: [BigQuery] googleapi: Error 400: Syntax error: Unexpected ";" at [18:10], invalidQuery
+(in compiled/models/staging/stg_thelook__users.sql:1:13)
+(in dbt_internal_packages/dbt-bigquery/macros/materializations/view.sql:15:24)
+(in dbt_internal_packages/dbt-bigquery/macros/relations/view/replace.sql:33:11)
+(in dbt_internal_packages/dbt-adapters/macros/etc/statement.sql:14:35)
+  --> compiled/models/staging/stg_thelook__users.sql:1:13
+   Skipped [-------] model thelook_dev_marts.dim_users (table)
+
+==================== Execution Summary =====================
+Finished 'run' with 2 errors for target 'dev' [6.0s]
+Processed: 4 models
+Summary: 4 total | 2 error | 2 skipped
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+ Debugging profile: dev
+ Debugging dbt version: 2.0.0-preview.48
+ Debugging platform: macos aarch64 (unix)
+ Debugging adapter type: bigquery (remote)
+ Debugging dependencies:
+  git: OK
+ Debugging connection:
+  "database": "gold-yen-476203-m8",
+  "schema": "ae_dev",
+  "priority": "interactive",
+  "method": "service-account",
+  "location": "US",
+  "dataproc_batch": null
+ Debugging connection test: OK
+  Debugged All checks passed!
+
+==================== Execution Summary =====================
+Finished 'debug' successfully for target 'dev' [2.2s]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+
+==================== Execution Summary =====================
+Finished 'parse' successfully for target 'dev' [749ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt0227: No column id found. Available are src.gender, src.user_id, src.order_id, src.status, src.shipped_at, src.created_at, src.delivered_at ..(and 2 more)
+  --> models/staging/stg_thelook__orders.sql:5:8 (target/compiled/models/staging/stg_thelook__orders.sql:5:8)
+   Skipped [-------] model thelook_dev_marts.fct_order_items (table)
+   Skipped [-------] model thelook_dev_marts.dim_users (table)
+    Failed [  3.34s] model thelook_dev_staging.stg_thelook__users (view)
+error: dbt1014: Error executing materialization macro '[33mdbt_bigquery.materialization_view_bigquery[0m' for model model.thelook_ae_project.stg_thelook__users: [BigQuery] googleapi: Error 400: Syntax error: Unexpected ";" at [18:10], invalidQuery
+(in compiled/models/staging/stg_thelook__users.sql:1:13)
+(in dbt_internal_packages/dbt-bigquery/macros/materializations/view.sql:15:24)
+(in dbt_internal_packages/dbt-bigquery/macros/relations/view/replace.sql:33:11)
+(in dbt_internal_packages/dbt-adapters/macros/etc/statement.sql:14:35)
+  --> compiled/models/staging/stg_thelook__users.sql:1:13
+   Skipped [-------] model thelook_dev_marts.dim_users (table)
+
+==================== Execution Summary =====================
+Finished 'run' with 2 errors for target 'dev' [6.5s]
+Processed: 4 models
+Summary: 4 total | 2 error | 2 skipped
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+  Removing target
+
+==================== Execution Summary =====================
+Finished 'clean' successfully [540ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+
+==================== Execution Summary =====================
+Finished 'parse' successfully for target 'dev' [889ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+ Downloading `bigquery-public-data`.`thelook_ecommerce`.`distribution_centers` (schema)
+ Downloading `bigquery-public-data`.`thelook_ecommerce`.`order_items` (schema)
+ Downloading `bigquery-public-data`.`thelook_ecommerce`.`orders` (schema)
+ Downloading `bigquery-public-data`.`thelook_ecommerce`.`products` (schema)
+ Downloading `bigquery-public-data`.`thelook_ecommerce`.`users` (schema)
+error: dbt0227: No column created_at found. Available are "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.returned_at, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.shipped_at, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.delivered_at, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.order_date, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.order_id, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.status, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.user_id
+  --> models/marts/fct_order_items.sql:20:10 (target/compiled/models/marts/fct_order_items.sql:16:10)
+   Skipped [-------] model thelook_dev_marts.dim_users (table)
+ Succeeded [  3.28s] model thelook_dev_staging.stg_thelook__orders (view)
+ Succeeded [  3.35s] model thelook_dev_staging.stg_thelook__users (view)
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [6.9s]
+Processed: 4 models
+Summary: 4 total | 2 success | 1 error | 1 skipped
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt0227: No column created_at found. Available are "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.returned_at, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.shipped_at, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.delivered_at, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.order_date, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.order_id, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.status, "gold-yen-476203-m8".thelook_dev_staging.stg_thelook__orders.user_id
+  --> models/marts/fct_order_items.sql:20:10 (target/compiled/models/marts/fct_order_items.sql:16:10)
+   Skipped [-------] model thelook_dev_marts.dim_users (table)
+ Succeeded [  3.95s] model thelook_dev_staging.stg_thelook__orders (view)
+ Succeeded [  4.00s] model thelook_dev_staging.stg_thelook__users (view)
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [7.2s]
+Processed: 4 models
+Summary: 4 total | 2 success | 1 error | 1 skipped
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+error: dbt0407: Comparison failed: Comparison between INT64 and STRING with = operator is not supported
+  --> models/marts/fct_order_items.sql:53:48 (target/compiled/models/marts/fct_order_items.sql:49:48)
+   Skipped [-------] model thelook_dev_marts.dim_users (table)
+ Succeeded [  3.69s] model thelook_dev_staging.stg_thelook__orders (view)
+ Succeeded [  3.72s] model thelook_dev_staging.stg_thelook__users (view)
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [21.0s]
+Processed: 4 models
+Summary: 4 total | 2 success | 1 error | 1 skipped
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+ Succeeded [  3.63s] model thelook_dev_staging.stg_thelook__users (view)
+ Succeeded [  3.66s] model thelook_dev_staging.stg_thelook__orders (view)
+ Succeeded [ 40.70s] model thelook_dev_marts.fct_order_items (table)
+    Failed [  1.34s] model thelook_dev_marts.dim_users (table)
+error: dbt1014: Error executing materialization macro '[33mdbt_bigquery.materialization_table_bigquery[0m' for model model.thelook_ae_project.dim_users: [BigQuery] googleapi: Error 400: Syntax error: Expected ")" but got ";" at [30:28], invalidQuery
+(in compiled/models/marts/dim_users.sql:1:13)
+(in dbt_internal_packages/dbt-bigquery/macros/materializations/table.sql:33:12)
+(in dbt_internal_packages/dbt-adapters/macros/etc/statement.sql:14:35)
+  --> compiled/models/marts/dim_users.sql:1:13
+
+==================== Execution Summary =====================
+Finished 'run' with 1 error for target 'dev' [48.2s]
+Processed: 4 models
+Summary: 4 total | 3 success | 1 error
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+
+==================== Execution Summary =====================
+Finished 'parse' successfully for target 'dev' [778ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+ Succeeded [  3.69s] model thelook_dev_staging.stg_thelook__users (view)
+ Succeeded [  3.69s] model thelook_dev_staging.stg_thelook__orders (view)
+ Succeeded [ 38.71s] model thelook_dev_marts.fct_order_items (table)
+ Succeeded [ 10.45s] model thelook_dev_marts.dim_users (table)
+
+==================== Execution Summary =====================
+Finished 'run' successfully for target 'dev' [55.6s]
+Processed: 4 models
+Summary: 4 total | 4 success

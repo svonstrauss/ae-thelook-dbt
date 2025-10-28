@@ -1,0 +1,13 @@
+ae_thelook:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      keyfile: /Users/yifanjia/Desktop/path/to/your-service-key.json
+      project: gold-yen-476203-m8
+      dataset: ae_dev
+      location: US
+      threads: 4
+      timeout_seconds: 300
+
