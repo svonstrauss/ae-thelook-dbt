@@ -1,7 +1,7 @@
 version: 2
 models:
   - name: stg_thelook__orders
-    description: "Cleaned orders from TheLook"
+    description: "Orders header; stable ids and timestamps for order activity"
     columns:
       - name: order_id
         tests: [not_null, unique]
@@ -10,17 +10,17 @@ models:
       - name: order_date
         tests: [not_null]
   - name: stg_thelook__users
-    description: "Cleaned users from TheLook"
+    description: "Users profile; canonical attributes for customers"
     columns:
       - name: user_id
         tests: [not_null, unique]
   - name: stg_thelook__products
-    description: "Cleaned products from TheLook"
+    description: "Products catalog; category, department and distribution center key"
     columns:
       - name: product_id
         tests: [not_null, unique]
   - name: stg_thelook__order_items
-    description: "Cleaned order_items from TheLook"
+    description: "Order line items; per item pricing and status"
     columns:
       - name: order_item_id
         tests: [not_null, unique]
@@ -31,7 +31,7 @@ models:
       - name: product_id
         tests: [not_null]
   - name: stg_thelook__distribution_centers
-    description: "Cleaned distribution centers from TheLook"
+    description: "Distribution centers; location reference"
     columns:
       - name: distribution_center_id
         tests: [not_null, unique]
