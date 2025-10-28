@@ -1,9 +1,9 @@
 with u as (
-  select * from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__users`
+  select * from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__users`
 ),
 o as (
   select user_id, min(order_date) as first_order_date, count(*) as orders_count
-  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_marts`.`fct_order_items`
+  from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
   group by 1
 )
 select

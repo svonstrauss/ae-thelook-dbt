@@ -335,3 +335,66 @@ dbt-fusion 2.0.0-preview.48
 Finished 'run' successfully for target 'dev' [55.6s]
 Processed: 4 models
 Summary: 4 total | 4 success
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+
+==================== Execution Summary =====================
+Finished 'parse' successfully for target 'dev' [851ms]
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+ Succeeded [  3.96s] model thelook_dev_staging.stg_thelook__order_items (view)
+ Succeeded [  3.98s] model thelook_dev_staging.stg_thelook__orders (view)
+ Succeeded [  4.03s] model thelook_dev_staging.stg_thelook__distribution_centers (view)
+ Succeeded [  4.11s] model thelook_dev_staging.stg_thelook__products (view)
+ Succeeded [  4.11s] model thelook_dev_staging.stg_orders (view)
+ Succeeded [  4.12s] model thelook_dev_staging.stg_thelook__users (view)
+
+==================== Execution Summary =====================
+Finished 'run' successfully for target 'dev' [7.9s]
+Processed: 6 models
+Summary: 6 total | 6 success
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+ Succeeded [  5.29s] model thelook_dev_marts.dim_distribution_centers (table)
+ Succeeded [  5.36s] model thelook_dev_marts.dim_products (table)
+ Succeeded [ 35.97s] model thelook_dev_marts.fct_order_items (table)
+ Succeeded [  7.53s] model thelook_dev_marts.dim_users (table)
+
+==================== Execution Summary =====================
+Finished 'run' successfully for target 'dev' [46.1s]
+Processed: 4 models
+Summary: 4 total | 4 success
+dbt-fusion 2.0.0-preview.48
+   Loading ~/.dbt/profiles.yml
+    Passed [  2.23s] test  dbt_test__audit.not_null_dim_distribution_centers_distribution_center_id
+    Passed [  2.25s] test  dbt_test__audit.not_null_stg_thelook__users_user_id
+    Passed [  2.28s] test  dbt_test__audit.unique_dim_distribution_centers_distribution_center_id
+    Passed [  2.29s] test  dbt_test__audit.unique_stg_thelook__distribution_centers_distribution_center_id
+    Passed [  2.29s] test  dbt_test__audit.not_null_dim_products_product_id
+    Passed [  2.30s] test  dbt_test__audit.not_null_dim_users_user_id
+    Passed [  2.31s] test  dbt_test__audit.not_null_stg_thelook__distribu_b5156ddb4b678298358e7f51c14ae700
+    Passed [  2.34s] test  dbt_test__audit.not_null_stg_thelook__order_items_product_id
+    Passed [  2.34s] test  dbt_test__audit.unique_dim_users_user_id
+    Passed [  2.35s] test  dbt_test__audit.unique_stg_thelook__products_product_id
+    Passed [  2.35s] test  dbt_test__audit.not_null_stg_thelook__products_product_id
+    Passed [  2.37s] test  dbt_test__audit.not_null_stg_thelook__orders_order_date
+    Passed [  2.39s] test  dbt_test__audit.unique_stg_thelook__users_user_id
+    Passed [  2.39s] test  dbt_test__audit.not_null_stg_thelook__order_items_order_item_id
+    Passed [  2.39s] test  dbt_test__audit.unique_stg_thelook__orders_order_id
+    Passed [  2.39s] test  dbt_test__audit.not_null_stg_thelook__orders_user_id
+    Passed [  2.44s] test  dbt_test__audit.not_null_stg_thelook__order_items_order_id
+    Passed [  2.45s] test  dbt_test__audit.not_null_stg_thelook__orders_order_id
+    Passed [  2.66s] test  dbt_test__audit.unique_dim_products_product_id
+    Passed [  2.95s] test  dbt_test__audit.not_null_stg_thelook__order_items_user_id
+    Passed [  3.12s] test  dbt_test__audit.unique_stg_thelook__order_items_order_item_id
+    Passed [  6.57s] test  dbt_test__audit.not_null_fct_order_items_product_id
+    Passed [  6.73s] test  dbt_test__audit.not_null_fct_order_items_order_item_id
+    Passed [  7.14s] test  dbt_test__audit.not_null_fct_order_items_user_id
+    Passed [  7.22s] test  dbt_test__audit.relationships_fct_order_items_eb5789018776846c4cb8693e443e6f58
+    Passed [  7.24s] test  dbt_test__audit.relationships_fct_order_items_user_id__user_id__ref_dim_users_
+    Passed [  7.60s] test  dbt_test__audit.unique_fct_order_items_order_item_id
+
+==================== Execution Summary =====================
+Finished 'test' successfully for target 'dev' [8.1s]
+Processed: 27 tests
+Summary: 27 total | 27 success
