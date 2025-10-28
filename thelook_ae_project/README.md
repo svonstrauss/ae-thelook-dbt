@@ -36,3 +36,24 @@ dbt test
 ```
 
 This will read from the public TheLook dataset and build staging views and marts in your development datasets.
+
+### Week 2: Dimensional modeling done right
+This phase elevates the project from working SQL to a maintainable analytics warehouse. The focus is a clear star schema, clean staging contracts and analytics tables that answer business questions fast.
+
+Goals
+Design a concise star schema around a single transactional fact with descriptive dimensions. Keep staging models one to one with sources and push business logic into marts. Document and test the edges that matter.
+
+Model shape
+Fact at the grain of an order item. Dimensions for users, products and distribution centers. Order headers enrich the fact with dates and status. This mirrors how downstream analysis happens: count items, sum revenue, segment by customer and product properties, drill into logistics.
+
+Standards
+Staging models only rename, cast and normalize. No joins or aggregates. Marts own the business definitions and denormalization. Consistent naming uses prefixes (stg_, dim_, fct_) and stable keys cast to strings. Partition large facts by order_date and cluster by high‑cardinality keys like user_id.
+
+What I built
+Staging views for users and orders that establish stable ids and timestamps. A fact table fct_order_items that joins orders, products and distribution centers, partitioned on order_date and clustered by user_id. A customer dimension dim_users that adds first order date, order counts and a simple customer type classification.
+
+Data quality
+Primary keys are unique and not null. Foreign keys from the fact reference dimensions. Source freshness configuration is defined at the source level. Tests run as part of development to prevent regressions.
+
+Definition of done
+Every core source has a staging view that compiles without warnings and exposes clearly named columns and correct types. The marts build cleanly in BigQuery and reflect the described star schema. The README and model YAMLs describe intent, important fields and assumptions so another engineer can understand the design quickly.
