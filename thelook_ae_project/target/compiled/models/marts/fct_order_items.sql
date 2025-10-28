@@ -15,7 +15,7 @@ orders as (
     cast(user_id  as string)   as user_id,
     order_date,
     status as order_status
-  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__orders`
+  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__orders`
 ),
 products as (
   select
