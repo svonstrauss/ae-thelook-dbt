@@ -92,3 +92,6 @@ Every core source has a staging view that compiles without warnings and exposes 
 
 ### Week 3: Tests and documentation
 This iteration adds a stronger safety net and better context. Models and key columns are documented. Tests cover keys, relationships and accepted values. A small custom test ensures prices are never negative. The docs site renders a clear lineage from sources to marts so a reviewer can trace how numbers are produced.
+
+### Week 4: Snapshots and performance
+Added an SCD Type 2 snapshot for orders to preserve status history over time. Switched the order‑item fact to incremental with partitioning and clustering, so reloads add only new data and queries filter efficiently by date.

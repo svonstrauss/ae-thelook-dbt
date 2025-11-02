@@ -1,5 +1,7 @@
 {{ config(
-    materialized='table',
+    materialized='incremental',
+    unique_key='order_item_id',
+    incremental_strategy='insert_overwrite',
     partition_by={"field":"order_date","data_type":"timestamp"},
     cluster_by=["user_id"]
 ) }}
@@ -60,3 +62,6 @@ from order_items
 join orders on order_items.order_id = orders.order_id
 left join products on order_items.product_id = products.product_id
 left join distribution_centers on products.distribution_center_id = distribution_centers.distribution_center_id
+{% if is_incremental() %}
+where orders.order_date > (select max(order_date) from {{ this }})
+{% endif %}

@@ -12,7 +12,7 @@ order_items as (
     user_id,
     sale_price,
     item_status
-  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__order_items`
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__order_items`
 ),
 orders as (
   -- Order header adds order_date and overall order status
@@ -21,7 +21,7 @@ orders as (
     cast(user_id  as string) as user_id,
     order_date,
     status as order_status
-  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__orders`
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__orders`
 ),
 products as (
   -- Product attributes and the distribution center foreign key
@@ -30,14 +30,14 @@ products as (
     category,
     department,
     distribution_center_id
-  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__products`
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__products`
 ),
 distribution_centers as (
   -- Distribution center reference data
   select
     distribution_center_id,
     distribution_center_name
-  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__distribution_centers`
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__distribution_centers`
 )
 
 select
@@ -56,3 +56,5 @@ from order_items
 join orders on order_items.order_id = orders.order_id
 left join products on order_items.product_id = products.product_id
 left join distribution_centers on products.distribution_center_id = distribution_centers.distribution_center_id
+
+where orders.order_date > (select max(order_date) from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`)

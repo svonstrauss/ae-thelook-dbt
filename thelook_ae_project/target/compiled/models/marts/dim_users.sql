@@ -1,14 +1,14 @@
 -- Customer dimension with user attributes and lifecycle signals like first order date and order count
 
 with users as (
-  select * from `gold-yen-476203-m8`.`ae_dev_thelook_dev_staging`.`stg_thelook__users`
+  select * from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__users`
 ),
 orders_by_user as (
   select
     user_id,
     min(order_date) as first_order_date,
     count(*)        as orders_count
-  from `gold-yen-476203-m8`.`ae_dev_thelook_dev_marts`.`fct_order_items`
+  from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
   group by user_id
 )
 select
