@@ -1,0 +1,20 @@
+version: 2
+
+exposures:
+  - name: sales_overview_dashboard
+    type: dashboard
+    label: "Sales Overview Dashboard"
+    description: "Management dashboard with revenue, orders, and AOV trends over time"
+    owner:
+      name: Yifan Jia
+      email: your.email@domain.com
+    depends_on:
+      - ref('fct_order_items')
+      - ref('dim_users')
+      - metric('total_revenue')
+      - metric('total_orders')
+    maturity: high
+    url: "https://lookerstudio.google.com/your-dashboard-link"
+
+
+

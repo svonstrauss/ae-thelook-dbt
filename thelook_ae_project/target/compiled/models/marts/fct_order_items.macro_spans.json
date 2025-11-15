@@ -137,9 +137,9 @@
         "index": 1791
       },
       "stop": {
-        "line": 67,
+        "line": 70,
         "col": 12,
-        "index": 1895
+        "index": 1944
       }
     },
     "expanded_span": {
@@ -149,9 +149,9 @@
         "index": 1703
       },
       "stop": {
-        "line": 61,
+        "line": 64,
         "col": 1,
-        "index": 1819
+        "index": 1868
       }
     }
   }

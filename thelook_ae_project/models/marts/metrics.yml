@@ -1,0 +1,46 @@
+version: 2
+
+# Semantic layer: define measures on top of fct_order_items and expose metrics
+semantic_models:
+  - name: order_items_semantic
+    model: ref('fct_order_items')
+    primary_key: order_item_id
+    measures:
+      - name: total_revenue
+        description: "Sum of item sale price"
+        expression: sale_price
+        agg: sum
+      - name: total_orders
+        description: "Distinct count of orders"
+        expression: order_id
+        agg: count_distinct
+    dimensions:
+      - name: order_date
+        type: time
+      - name: product_category
+      - name: product_department
+      - name: order_status
+
+metrics:
+  - name: total_revenue
+    label: "Total Revenue"
+    description: "Total sales revenue from order items"
+    semantic_model: order_items_semantic
+    measure: total_revenue
+    aggregation_method: sum
+
+  - name: total_orders
+    label: "Total Orders"
+    description: "Count of distinct orders"
+    semantic_model: order_items_semantic
+    measure: total_orders
+    aggregation_method: sum
+
+  - name: avg_order_value
+    label: "Average Order Value"
+    type: derived
+    description: "Revenue per order"
+    expression: "{{ Metric('total_revenue') }} / {{ Metric('total_orders') }}"
+
+
+

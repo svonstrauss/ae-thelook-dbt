@@ -1,0 +1,42 @@
+==================== 2025-11-15 02:55:58.116571 | 4c4b5339-062b-4538-8ab5-af64f1227918 ====================
+02:55:58.116876 [info ]: Starting dbt LSP server
+02:55:58.116937 [info ]: Connecting to LSP client on port 8000
+02:55:58.117211 [info ]: Successfully connected to LSP client
+02:55:58.117221 [info ]: Creating LSP service...
+02:55:58.158760 [info ]: Creating LSP server...
+02:55:58.158774 [info ]: Starting LSP server...
+02:55:58.358229 [info ]: Cached model count updated: 10 models (estimate)
+02:55:58.377728 [warn ]: dbt0102: The package 'thelook_ae_project' defines semantic models and metrics using the legacy YAML. Please migrate to the new YAML to use the semantic layer with dbt Fusion.
+02:55:58.400413 [info ]: Cached model count updated: 10 models (accurate)
+02:56:41.819279 [debug]: Query executed on node unknown:
+SELECT
+    table_catalog,
+    table_schema,
+    table_name,
+    table_type
+FROM 
+    `gold-yen-476203-m8`.`thelook_dev_marts`.INFORMATION_SCHEMA.TABLES
+02:56:53.267280 [info ]: Cached model count updated: 10 models (accurate)
+03:09:39.432762 [info ]: Cached model count updated: 10 models (estimate)
+03:09:39.446977 [warn ]: dbt0102: The package 'thelook_ae_project' defines semantic models and metrics using the legacy YAML. Please migrate to the new YAML to use the semantic layer with dbt Fusion.
+03:09:39.449746 [info ]: Cached model count updated: 10 models (accurate)
+03:09:39.449929 [debug]: Incremental compilation - 0 nodes selected: {}
+03:09:39.521887 [info ]: Cached model count updated: 10 models (accurate)
+03:09:39.845851 [info ]: Cached model count updated: 10 models (estimate)
+03:09:39.846160 [info ]: Cached model count updated: 10 models (accurate)
+20:00:13.741425 [info ]: Cached model count updated: 10 models (estimate)
+20:00:13.816296 [info ]: Cached model count updated: 10 models (accurate)
+20:00:13.817485 [debug]: Incremental compilation - 11 nodes selected: {"exposure.thelook_ae_project.sales_overview_dashboard", "model.thelook_ae_project.dim_users", "model.thelook_ae_project.fct_order_items", "model.thelook_ae_project.stg_thelook__distribution_centers", "model.thelook_ae_project.stg_thelook__order_items", "model.thelook_ae_project.stg_thelook__orders", "model.thelook_ae_project.stg_thelook__products", "source.thelook_ae_project.thelook.distribution_centers", "source.thelook_ae_project.thelook.order_items", "source.thelook_ae_project.thelook.orders", "source.thelook_ae_project.thelook.products"}
+20:00:14.757727 [info ]: Cached model count updated: 10 models (accurate)
+20:01:28.533918 [info ]: Cached model count updated: 10 models (estimate)
+20:01:28.558711 [info ]: Cached model count updated: 10 models (accurate)
+20:01:28.559072 [debug]: Incremental compilation - 11 nodes selected: {"exposure.thelook_ae_project.sales_overview_dashboard", "model.thelook_ae_project.dim_users", "model.thelook_ae_project.fct_order_items", "model.thelook_ae_project.stg_thelook__distribution_centers", "model.thelook_ae_project.stg_thelook__order_items", "model.thelook_ae_project.stg_thelook__orders", "model.thelook_ae_project.stg_thelook__products", "source.thelook_ae_project.thelook.distribution_centers", "source.thelook_ae_project.thelook.order_items", "source.thelook_ae_project.thelook.orders", "source.thelook_ae_project.thelook.products"}
+20:01:29.679890 [info ]: Cached model count updated: 10 models (accurate)
+20:02:24.989117 [info ]: Cached model count updated: 10 models (estimate)
+20:02:25.010381 [info ]: Cached model count updated: 10 models (accurate)
+20:02:25.010684 [debug]: Incremental compilation - 11 nodes selected: {"exposure.thelook_ae_project.sales_overview_dashboard", "model.thelook_ae_project.dim_users", "model.thelook_ae_project.fct_order_items", "model.thelook_ae_project.stg_thelook__distribution_centers", "model.thelook_ae_project.stg_thelook__order_items", "model.thelook_ae_project.stg_thelook__orders", "model.thelook_ae_project.stg_thelook__products", "source.thelook_ae_project.thelook.distribution_centers", "source.thelook_ae_project.thelook.order_items", "source.thelook_ae_project.thelook.orders", "source.thelook_ae_project.thelook.products"}
+20:02:25.540944 [error]: dbt8995: Adapter operation was cancelled
+20:02:25.563842 [info ]: Cached model count updated: 10 models (estimate)
+20:02:25.591137 [info ]: Cached model count updated: 10 models (accurate)
+20:02:25.591480 [debug]: Incremental compilation - 11 nodes selected: {"exposure.thelook_ae_project.sales_overview_dashboard", "model.thelook_ae_project.dim_users", "model.thelook_ae_project.fct_order_items", "model.thelook_ae_project.stg_thelook__distribution_centers", "model.thelook_ae_project.stg_thelook__order_items", "model.thelook_ae_project.stg_thelook__orders", "model.thelook_ae_project.stg_thelook__products", "source.thelook_ae_project.thelook.distribution_centers", "source.thelook_ae_project.thelook.order_items", "source.thelook_ae_project.thelook.orders", "source.thelook_ae_project.thelook.products"}
+20:02:26.043130 [info ]: Cached model count updated: 10 models (accurate)

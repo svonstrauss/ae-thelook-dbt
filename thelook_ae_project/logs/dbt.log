@@ -5569,3 +5569,1346 @@ dbt-fusion 2.0.0-preview.48
 
 ==================== Execution Summary =====================
 Finished 'parse' successfully for target 'dev' [667ms]
+==================== 2025-11-02 00:59:20.177037 | 019a4213-6aed-7233-b648-ec3ea05ad66f ====================
+dbt-fusion 2.0.0-preview.56
+   Loading ~/.dbt/profiles.yml
+00:59:26.801306 [debug]: Query executed on node unknown:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","connection_name":""} */
+
+    select distinct schema_name from `gold-yen-476203-m8`.INFORMATION_SCHEMA.SCHEMATA;
+  
+00:59:27.934681 [debug]: Query executed on node unknown:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","connection_name":""} */
+create schema if not exists `thelook_dev_snapshots`
+00:59:30.117050 [debug]: Query executed on node snapshot.thelook_ae_project.orders_snapshot:
+SELECT
+    table_catalog,
+    table_schema,
+    table_name,
+    table_type
+FROM 
+    `gold-yen-476203-m8`.`thelook_dev_snapshots`.INFORMATION_SCHEMA.TABLES
+00:59:31.845497 [debug]: Query executed on node snapshot.thelook_ae_project.orders_snapshot:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"snapshot.thelook_ae_project.orders_snapshot"} */
+select * from (
+        
+    
+
+    select *,
+        to_hex(md5(concat(coalesce(cast(order_id as string), ''), '|',coalesce(cast(
+    current_timestamp()
+ as string), '')))) as dbt_scd_id,
+        
+    current_timestamp()
+ as dbt_updated_at,
+        
+    current_timestamp()
+ as dbt_valid_from,
+        
+  
+  coalesce(nullif(
+    current_timestamp()
+, 
+    current_timestamp()
+), null)
+  as dbt_valid_to
+from (
+        
+
+
+select *
+from `bigquery-public-data`.`thelook_ecommerce`.`orders`
+
+
+    ) sbq
+
+
+
+    ) as __dbt_sbq
+    where false and current_timestamp() = current_timestamp()
+    limit 0
+
+00:59:33.362271 [debug]: Query executed on node snapshot.thelook_ae_project.orders_snapshot:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"snapshot.thelook_ae_project.orders_snapshot"} */
+select * from (
+        select 
+    current_timestamp()
+ as dbt_snapshot_time
+    ) as __dbt_sbq
+    where false and current_timestamp() = current_timestamp()
+    limit 0
+
+00:59:37.525350 [debug]: Query executed on node snapshot.thelook_ae_project.orders_snapshot:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"snapshot.thelook_ae_project.orders_snapshot"} */
+
+      
+  
+    
+
+    create or replace table `gold-yen-476203-m8`.`thelook_dev_snapshots`.`orders_snapshot`
+      
+    
+    
+
+    
+    OPTIONS()
+    as (
+      
+    
+
+    select *,
+        to_hex(md5(concat(coalesce(cast(order_id as string), ''), '|',coalesce(cast(
+    current_timestamp()
+ as string), '')))) as dbt_scd_id,
+        
+    current_timestamp()
+ as dbt_updated_at,
+        
+    current_timestamp()
+ as dbt_valid_from,
+        
+  
+  coalesce(nullif(
+    current_timestamp()
+, 
+    current_timestamp()
+), null)
+  as dbt_valid_to
+from (
+        
+
+
+select *
+from `bigquery-public-data`.`thelook_ecommerce`.`orders`
+
+
+    ) sbq
+
+
+
+    );
+  
+  
+ Succeeded [  9.56s] snapshot thelook_dev_snapshots.orders_snapshot (table)
+00:59:37.703644 [info ]: 
+==================== Execution Summary =====================
+Finished 'snapshot' successfully for target 'dev' [17.5s]
+Processed: 1 snapshot
+Summary: 1 total | 1 success
+==================== 2025-11-02 00:59:37.744494 | 019a4213-af8f-7ef1-bf7c-e1f5f673bd34 ====================
+dbt-fusion 2.0.0-preview.56
+   Loading ~/.dbt/profiles.yml
+00:59:39.984603 [debug]: Query executed on node unknown:
+SELECT
+    table_catalog,
+    table_schema,
+    table_name,
+    table_type
+FROM 
+    `gold-yen-476203-m8`.`thelook_dev_marts`.INFORMATION_SCHEMA.TABLES
+00:59:42.867475 [debug]: Query executed on node unknown:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","connection_name":""} */
+
+    select distinct schema_name from `gold-yen-476203-m8`.INFORMATION_SCHEMA.SCHEMATA;
+  
+01:00:26.762207 [debug]: Query executed on node model.thelook_ae_project.fct_order_items:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"model.thelook_ae_project.fct_order_items"} */
+
+  
+    
+
+    create or replace table `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+      
+    partition by timestamp_trunc(order_date, day)
+    cluster by user_id
+
+    
+    OPTIONS()
+    as (
+      
+
+-- Fact table at the order item grain. Supports revenue and item-level analysis by user, product, and fulfillment.
+
+with
+order_items as (
+  -- Staging provides clean ids and consistent types
+  select
+    order_item_id,
+    order_id,
+    product_id,
+    user_id,
+    sale_price,
+    item_status
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__order_items`
+),
+orders as (
+  -- Order header adds order_date and overall order status
+  select
+    cast(order_id as string) as order_id,
+    cast(user_id  as string) as user_id,
+    order_date,
+    status as order_status
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__orders`
+),
+products as (
+  -- Product attributes and the distribution center foreign key
+  select
+    product_id,
+    category,
+    department,
+    distribution_center_id
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__products`
+),
+distribution_centers as (
+  -- Distribution center reference data
+  select
+    distribution_center_id,
+    distribution_center_name
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__distribution_centers`
+)
+
+select
+  order_items.order_item_id,
+  orders.order_id,
+  orders.user_id,
+  orders.order_date,
+  orders.order_status,
+  order_items.sale_price,
+  order_items.product_id,
+  products.distribution_center_id,
+  products.category as product_category,
+  products.department as product_department,
+  distribution_centers.distribution_center_name
+from order_items
+join orders on order_items.order_id = orders.order_id
+left join products on order_items.product_id = products.product_id
+left join distribution_centers on products.distribution_center_id = distribution_centers.distribution_center_id
+
+    );
+  
+ Succeeded [ 43.86s] model thelook_dev_marts.fct_order_items (incremental)
+01:00:26.886721 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' successfully for target 'dev' [49.1s]
+Processed: 1 model
+Summary: 1 total | 1 success
+==================== 2025-11-02 01:00:26.926231 | 019a4214-6fad-7b31-b81d-814ce4c92283 ====================
+dbt-fusion 2.0.0-preview.56
+   Loading ~/.dbt/profiles.yml
+01:00:29.694950 [debug]: Query executed on node unknown:
+SELECT
+    table_catalog,
+    table_schema,
+    table_name,
+    table_type
+FROM 
+    `gold-yen-476203-m8`.`thelook_dev_marts`.INFORMATION_SCHEMA.TABLES
+01:00:32.097657 [debug]: Query executed on node unknown:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","connection_name":""} */
+
+    select distinct schema_name from `gold-yen-476203-m8`.INFORMATION_SCHEMA.SCHEMATA;
+  
+01:00:35.439290 [debug]: Query executed on node model.thelook_ae_project.fct_order_items:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"model.thelook_ae_project.fct_order_items"} */
+
+    SELECT
+                column_name,
+                data_type
+             FROM `gold-yen-476203-m8.thelook_dev_marts.INFORMATION_SCHEMA.COLUMNS`
+             WHERE table_schema = 'thelook_dev_marts' and table_name = 'fct_order_items'
+             ORDER BY ordinal_position
+
+  
+01:00:48.929319 [debug]: Query executed on node model.thelook_ae_project.fct_order_items:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"model.thelook_ae_project.fct_order_items"} */
+
+   
+      -- generated script to merge partitions into `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+      declare dbt_partitions_for_replacement array<timestamp>;
+
+      
+      
+       -- 1. create a temp table with model data
+        
+  
+    
+
+    create or replace table `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items__dbt_tmp`
+      
+    partition by timestamp_trunc(order_date, day)
+    cluster by user_id
+
+    
+    OPTIONS(
+      expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 12 hour)
+    )
+    as (
+      
+
+-- Fact table at the order item grain. Supports revenue and item-level analysis by user, product, and fulfillment.
+
+with
+order_items as (
+  -- Staging provides clean ids and consistent types
+  select
+    order_item_id,
+    order_id,
+    product_id,
+    user_id,
+    sale_price,
+    item_status
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__order_items`
+),
+orders as (
+  -- Order header adds order_date and overall order status
+  select
+    cast(order_id as string) as order_id,
+    cast(user_id  as string) as user_id,
+    order_date,
+    status as order_status
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__orders`
+),
+products as (
+  -- Product attributes and the distribution center foreign key
+  select
+    product_id,
+    category,
+    department,
+    distribution_center_id
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__products`
+),
+distribution_centers as (
+  -- Distribution center reference data
+  select
+    distribution_center_id,
+    distribution_center_name
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__distribution_centers`
+)
+
+select
+  order_items.order_item_id,
+  orders.order_id,
+  orders.user_id,
+  orders.order_date,
+  orders.order_status,
+  order_items.sale_price,
+  order_items.product_id,
+  products.distribution_center_id,
+  products.category as product_category,
+  products.department as product_department,
+  distribution_centers.distribution_center_name
+from order_items
+join orders on order_items.order_id = orders.order_id
+left join products on order_items.product_id = products.product_id
+left join distribution_centers on products.distribution_center_id = distribution_centers.distribution_center_id
+
+where orders.order_date > (select max(order_date) from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`)
+
+    );
+  
+      -- 2. define partitions to update
+      set (dbt_partitions_for_replacement) = (
+          select as struct
+              -- IGNORE NULLS: this needs to be aligned to _dbt_max_partition, which ignores null
+              array_agg(distinct timestamp_trunc(order_date, day) IGNORE NULLS)
+          from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items__dbt_tmp`
+      );
+
+      -- 3. run the merge statement
+      
+
+    merge into `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items` as DBT_INTERNAL_DEST
+        using (
+        select
+        * from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items__dbt_tmp`
+      ) as DBT_INTERNAL_SOURCE
+        on FALSE
+
+    when not matched by source
+         and timestamp_trunc(DBT_INTERNAL_DEST.order_date, day) in unnest(dbt_partitions_for_replacement) 
+        then delete
+
+    when not matched then insert
+        (`order_item_id`, `order_id`, `user_id`, `order_date`, `order_status`, `sale_price`, `product_id`, `distribution_center_id`, `product_category`, `product_department`, `distribution_center_name`)
+    values
+        (`order_item_id`, `order_id`, `user_id`, `order_date`, `order_status`, `sale_price`, `product_id`, `distribution_center_id`, `product_category`, `product_department`, `distribution_center_name`)
+
+;
+
+      -- 4. clean up the temp table
+      drop table if exists `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items__dbt_tmp`
+
+  
+
+
+  
+
+    
+ Succeeded [ 15.92s] model thelook_dev_marts.fct_order_items (incremental)
+01:00:49.193430 [info ]: 
+==================== Execution Summary =====================
+Finished 'run' successfully for target 'dev' [22.3s]
+Processed: 1 model
+Summary: 1 total | 1 success
+==================== 2025-11-02 01:00:49.236961 | 019a4214-c6d3-7831-9602-e9efc3229f3b ====================
+dbt-fusion 2.0.0-preview.56
+   Loading ~/.dbt/profiles.yml
+01:00:52.312529 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__orders_user_id.9508be6109:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__orders_user_id.9508be6109"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select user_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__orders`
+where user_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  2.80s] test  dbt_test__audit.not_null_stg_thelook__orders_user_id
+01:00:52.454385 [debug]: Query executed on node test.thelook_ae_project.unique_dim_users_user_id.07b663c72f:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_dim_users_user_id.07b663c72f"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select user_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_users`
+  where user_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  2.93s] test  dbt_test__audit.unique_dim_users_user_id
+01:00:54.082816 [debug]: Query executed on node test.thelook_ae_project.accepted_values_fct_order_item_bf7810ade017cb98e267855e7a9d83a7.fdec84b05d:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.accepted_values_fct_order_item_bf7810ade017cb98e267855e7a9d83a7.fdec84b05d"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+
+    
+    
+
+with all_values as (
+
+    select
+        order_status as value_field,
+        count(*) as n_records
+
+    from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+    group by order_status
+
+)
+
+select *
+from all_values
+where value_field not in (
+    'Cancelled','Completed','Processing','Shipped','Returned'
+)
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Warned [  4.57s] test  dbt_test__audit.accepted_values_fct_order_item_bf7810ade017cb98e267855e7a9d83a7 (models/marts/marts.yml:30:13)
+01:00:54.443713 [debug]: Query executed on node test.thelook_ae_project.unique_stg_thelook__orders_order_id.7f9ac893ad:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_stg_thelook__orders_order_id.7f9ac893ad"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select order_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__orders`
+  where order_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  4.93s] test  dbt_test__audit.unique_stg_thelook__orders_order_id
+01:00:54.660123 [debug]: Query executed on node test.thelook_ae_project.unique_dim_products_product_id.2ee5af5ba3:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_dim_products_product_id.2ee5af5ba3"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select product_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_products`
+  where product_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  5.14s] test  dbt_test__audit.unique_dim_products_product_id
+01:00:55.004420 [debug]: Query executed on node test.thelook_ae_project.relationships_fct_order_items_b0f28835da40fb8b0928f9f26aa86d50.b42d55701f:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.relationships_fct_order_items_b0f28835da40fb8b0928f9f26aa86d50.b42d55701f"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with child as (
+    select product_id as from_field
+    from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+    where product_id is not null
+),
+
+parent as (
+    select product_id as to_field
+    from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_products`
+)
+
+select
+    from_field
+
+from child
+left join parent
+    on child.from_field = parent.to_field
+
+where parent.to_field is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  5.49s] test  dbt_test__audit.relationships_fct_order_items_b0f28835da40fb8b0928f9f26aa86d50
+01:00:56.105602 [debug]: Query executed on node test.thelook_ae_project.not_null_dim_distribution_centers_distribution_center_id.a521a5ae02:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_dim_distribution_centers_distribution_center_id.a521a5ae02"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select distribution_center_id
+from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_distribution_centers`
+where distribution_center_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  6.59s] test  dbt_test__audit.not_null_dim_distribution_centers_distribution_center_id
+01:00:56.557507 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__order_items_order_id.96b754545f:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__order_items_order_id.96b754545f"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select order_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__order_items`
+where order_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  7.04s] test  dbt_test__audit.not_null_stg_thelook__order_items_order_id
+01:00:57.459031 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__orders_order_id.603ede9521:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__orders_order_id.603ede9521"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select order_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__orders`
+where order_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  7.94s] test  dbt_test__audit.not_null_stg_thelook__orders_order_id
+01:00:58.548829 [debug]: Query executed on node test.thelook_ae_project.not_null_fct_order_items_user_id.9941afe8cb:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_fct_order_items_user_id.9941afe8cb"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select user_id
+from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+where user_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  9.03s] test  dbt_test__audit.not_null_fct_order_items_user_id
+01:00:58.639479 [debug]: Query executed on node test.thelook_ae_project.unique_stg_thelook__order_items_order_item_id.82181a8df5:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_stg_thelook__order_items_order_item_id.82181a8df5"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select order_item_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__order_items`
+  where order_item_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [  9.11s] test  dbt_test__audit.unique_stg_thelook__order_items_order_item_id
+01:01:00.665363 [debug]: Query executed on node test.thelook_ae_project.relationships_fct_order_items_eb5789018776846c4cb8693e443e6f58.c113f53f2a:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.relationships_fct_order_items_eb5789018776846c4cb8693e443e6f58.c113f53f2a"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with child as (
+    select distribution_center_id as from_field
+    from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+    where distribution_center_id is not null
+),
+
+parent as (
+    select distribution_center_id as to_field
+    from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_distribution_centers`
+)
+
+select
+    from_field
+
+from child
+left join parent
+    on child.from_field = parent.to_field
+
+where parent.to_field is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 11.14s] test  dbt_test__audit.relationships_fct_order_items_eb5789018776846c4cb8693e443e6f58
+01:01:00.903476 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__products_product_id.3563120558:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__products_product_id.3563120558"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select product_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__products`
+where product_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 11.39s] test  dbt_test__audit.not_null_stg_thelook__products_product_id
+01:01:01.306350 [debug]: Query executed on node test.thelook_ae_project.assert_non_negative_sale_price.35442d9453:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.assert_non_negative_sale_price.35442d9453"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  -- Fails if any order_item has a negative sale_price
+select order_item_id
+from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+where sale_price < 0
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 11.79s] test  dbt_test__audit.assert_non_negative_sale_price
+01:01:03.041858 [debug]: Query executed on node test.thelook_ae_project.not_null_dim_users_user_id.ea02541819:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_dim_users_user_id.ea02541819"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select user_id
+from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_users`
+where user_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 13.52s] test  dbt_test__audit.not_null_dim_users_user_id
+01:01:03.095829 [debug]: Query executed on node test.thelook_ae_project.unique_stg_thelook__users_user_id.ec0a00c3e0:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_stg_thelook__users_user_id.ec0a00c3e0"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select user_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__users`
+  where user_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 13.58s] test  dbt_test__audit.unique_stg_thelook__users_user_id
+01:01:03.330833 [debug]: Query executed on node test.thelook_ae_project.unique_fct_order_items_order_item_id.d873f083e7:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_fct_order_items_order_item_id.d873f083e7"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select order_item_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+  where order_item_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 13.81s] test  dbt_test__audit.unique_fct_order_items_order_item_id
+01:01:05.178290 [debug]: Query executed on node test.thelook_ae_project.unique_dim_distribution_centers_distribution_center_id.c14a2f0b53:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_dim_distribution_centers_distribution_center_id.c14a2f0b53"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select distribution_center_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_distribution_centers`
+  where distribution_center_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 15.66s] test  dbt_test__audit.unique_dim_distribution_centers_distribution_center_id
+01:01:05.363518 [debug]: Query executed on node test.thelook_ae_project.not_null_dim_products_product_id.c8b38aacfa:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_dim_products_product_id.c8b38aacfa"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select product_id
+from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_products`
+where product_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 15.84s] test  dbt_test__audit.not_null_dim_products_product_id
+01:01:05.377181 [debug]: Query executed on node test.thelook_ae_project.not_null_fct_order_items_product_id.00dd05a99d:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_fct_order_items_product_id.00dd05a99d"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select product_id
+from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+where product_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 15.86s] test  dbt_test__audit.not_null_fct_order_items_product_id
+01:01:06.805393 [debug]: Query executed on node test.thelook_ae_project.not_null_fct_order_items_order_item_id.fa533d6f77:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_fct_order_items_order_item_id.fa533d6f77"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select order_item_id
+from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+where order_item_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 17.29s] test  dbt_test__audit.not_null_fct_order_items_order_item_id
+01:01:07.262441 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__order_items_product_id.a0bbfbc4d6:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__order_items_product_id.a0bbfbc4d6"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select product_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__order_items`
+where product_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 17.74s] test  dbt_test__audit.not_null_stg_thelook__order_items_product_id
+01:01:07.665150 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__distribu_b5156ddb4b678298358e7f51c14ae700.d4dd883419:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__distribu_b5156ddb4b678298358e7f51c14ae700.d4dd883419"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select distribution_center_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__distribution_centers`
+where distribution_center_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 18.14s] test  dbt_test__audit.not_null_stg_thelook__distribu_b5156ddb4b678298358e7f51c14ae700
+01:01:07.930407 [debug]: Query executed on node test.thelook_ae_project.unique_stg_thelook__distribution_centers_distribution_center_id.4e187b38e6:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_stg_thelook__distribution_centers_distribution_center_id.4e187b38e6"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select distribution_center_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__distribution_centers`
+  where distribution_center_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 18.41s] test  dbt_test__audit.unique_stg_thelook__distribution_centers_distribution_center_id
+01:01:08.872046 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__orders_order_date.a145b253b2:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__orders_order_date.a145b253b2"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select order_date
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__orders`
+where order_date is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 19.35s] test  dbt_test__audit.not_null_stg_thelook__orders_order_date
+01:01:09.237302 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__order_items_order_item_id.b1dccf6db3:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__order_items_order_item_id.b1dccf6db3"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select order_item_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__order_items`
+where order_item_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 19.72s] test  dbt_test__audit.not_null_stg_thelook__order_items_order_item_id
+01:01:09.917151 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__users_user_id.bb8270fbdb:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__users_user_id.bb8270fbdb"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select user_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__users`
+where user_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 20.40s] test  dbt_test__audit.not_null_stg_thelook__users_user_id
+01:01:11.088905 [debug]: Query executed on node test.thelook_ae_project.not_null_stg_thelook__order_items_user_id.ee5aabcc3b:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.not_null_stg_thelook__order_items_user_id.ee5aabcc3b"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+
+
+select user_id
+from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__order_items`
+where user_id is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 21.57s] test  dbt_test__audit.not_null_stg_thelook__order_items_user_id
+01:01:11.218039 [debug]: Query executed on node test.thelook_ae_project.unique_stg_thelook__products_product_id.7d29f9d88a:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.unique_stg_thelook__products_product_id.7d29f9d88a"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with dbt_test__target as (
+
+  select product_id as unique_field
+  from `gold-yen-476203-m8`.`thelook_dev_staging`.`stg_thelook__products`
+  where product_id is not null
+
+)
+
+select
+    unique_field,
+    count(*) as n_records
+
+from dbt_test__target
+group by unique_field
+having count(*) > 1
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 21.70s] test  dbt_test__audit.unique_stg_thelook__products_product_id
+01:01:11.716428 [debug]: Query executed on node test.thelook_ae_project.relationships_fct_order_items_user_id__user_id__ref_dim_users_.c73dc0940f:
+/* {"app":"dbt","dbt_version":"2.0.0","profile_name":"thelook_ae","target_name":"dev","node_id":"test.thelook_ae_project.relationships_fct_order_items_user_id__user_id__ref_dim_users_.c73dc0940f"} */
+
+    select
+      count(*) as failures,
+      count(*) != 0 as should_warn,
+      count(*) != 0 as should_error
+    from (
+      
+    
+  
+    
+    
+
+with child as (
+    select user_id as from_field
+    from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+    where user_id is not null
+),
+
+parent as (
+    select user_id as to_field
+    from `gold-yen-476203-m8`.`thelook_dev_marts`.`dim_users`
+)
+
+select
+    from_field
+
+from child
+left join parent
+    on child.from_field = parent.to_field
+
+where parent.to_field is null
+
+
+
+  
+  
+      
+    ) dbt_internal_test
+    Passed [ 22.19s] test  dbt_test__audit.relationships_fct_order_items_user_id__user_id__ref_dim_users_
+01:01:11.840395 [info ]: 
+==================== Execution Summary =====================
+Finished 'test' with 1 warning for target 'dev' [22.6s]
+Processed: 30 tests
+Summary: 30 total | 29 success | 1 warn
+==================== 2025-11-15 19:55:57.007773 | 019a8916-b0cb-7723-aa26-5a83e9654695 ====================
+dbt-fusion 2.0.0-preview.67
+   Loading ~/.dbt/profiles.yml
+19:55:57.235649 [warn ]: dbt0102: The package 'thelook_ae_project' defines semantic models and metrics using the legacy YAML. Please migrate to the new YAML to use the semantic layer with dbt Fusion.
+19:55:57.815900 [info ]: 
+==================== Execution Summary =====================
+Finished 'parse' with 1 warning for target 'dev' [808ms]
+==================== 2025-11-15 19:55:57.851983 | 019a8916-b41a-7183-9076-ee4229a1f67b ====================

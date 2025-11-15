@@ -57,4 +57,7 @@ join orders on order_items.order_id = orders.order_id
 left join products on order_items.product_id = products.product_id
 left join distribution_centers on products.distribution_center_id = distribution_centers.distribution_center_id
 
-where orders.order_date > (select max(order_date) from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`)
+where orders.order_date > (
+  select coalesce(max(order_date), cast('1970-01-01' as timestamp))
+  from `gold-yen-476203-m8`.`thelook_dev_marts`.`fct_order_items`
+)
