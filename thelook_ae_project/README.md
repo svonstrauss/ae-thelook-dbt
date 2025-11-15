@@ -28,7 +28,7 @@ models/sources contains the public dataset declarations. models/staging contains
 The layered shape separates concerns. Sources document where data originates. Staging creates a reliable contract for downstream use. Marts express business rules in clear SQL that is easy to review and extend. This mirrors how I ship analytics features in production: small, testable steps with clear ownership.
 
 ### What to look at
-fct_order_items.sql for the core join logic and storage settings. dim_users.sql for lifecycle metrics built from the fact. The YAML files for testing strategy and model documentation.
+fct_order_items.sql for the core join logic and storage settings. dim_users.sql for lifecycle metrics built from the fact. The YAML files for testing strategy and model documentation. See `QUERY_GUIDE_PUBLIC.md` for ready-to-run SQL in BigQuery.
 
 ### How to run locally
 Prerequisites: BigQuery project + service account, dbt (Fusion) with BigQuery adapter, VS Code dbt extension.
